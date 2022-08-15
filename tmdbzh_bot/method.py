@@ -1,18 +1,26 @@
 import re
 import requests
+import redis
 
 from .tmdb.type import Movie, TV, Person
 
 from datetime import date
 
+r = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
+
 def get_zh_name(id):
-     request_url = 'https://www.wikidata.org/w/api.php?action=query&format=json&uselang={}&prop=entityterms&generator=search&formatversion=2&gsrsearch=haswbstatement%3A%22P4985%3D{}%22'
-     res = requests.get(request_url.format('zh-cn', id)).json().get('query', {}).get('pages', [])
-     wiki_id = next((item.get('title') for item in res), '')
-     request_url = 'https://www.wikidata.org/w/api.php?action=wbgetentities&format=json&ids={}&languages=zh-cn&languagefallback=1&formatversion=2'.format(wiki_id)
-     res = requests.get(request_url).json()
-     name = res.get('entities', {}).get(wiki_id, {}).get('labels', {}).get('zh-cn', {}).get('value', '')
-     return name
+    name = r.get(id)
+    if name:
+        return name
+    request_url = 'https://www.wikidata.org/w/api.php?action=query&format=json&uselang={}&prop=entityterms&generator=search&formatversion=2&gsrsearch=haswbstatement%3A%22P4985%3D{}%22'
+    res = requests.get(request_url.format('zh-cn', id)).json().get('query', {}).get('pages', [])
+    wiki_id = next((item.get('title') for item in res), '')
+    request_url = 'https://www.wikidata.org/w/api.php?action=wbgetentities&format=json&ids={}&languages=zh-cn&languagefallback=1&formatversion=2'.format(wiki_id)
+    res = requests.get(request_url).json()
+    name = res.get('entities', {}).get(wiki_id, {}).get('labels', {}).get('zh-cn', {}).get('value', '')
+    if name:
+        r.set(id, name)
+    return name
 
 def get_release(release):
     datelist = []
