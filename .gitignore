@@ -1,2 +1,3 @@
 *.session*
 config.toml
+__pycache__/

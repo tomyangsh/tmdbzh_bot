@@ -1,7 +1,6 @@
 import re
 import requests
 
-from .tmdb import method
 from .tmdb.type import Movie, TV, Person
 
 from datetime import date

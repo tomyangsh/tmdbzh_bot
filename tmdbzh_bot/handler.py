@@ -5,7 +5,8 @@ from .tmdb import method
 from .method import build_message
 
 from pyrogram import enums
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, InlineQueryResultArticle, InputTextMessageContent, MessageEntity, InputMediaPhoto
+from pyrogram.types import (InlineKeyboardButton, InlineKeyboardMarkup,
+        InlineQueryResultArticle, InputTextMessageContent)
 
 IMG_BASE = 'https://oracle.tomyangsh.pw/img'
 
