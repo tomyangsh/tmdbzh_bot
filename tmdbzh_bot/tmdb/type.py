@@ -6,7 +6,7 @@ from . import method
 
 from country_list import countries_for_language
 
-IMG_BASE = 'https://image.tmdb.org/t/p/original'
+IMG_BASE = 'https://oracle.tomyangsh.pw/img'
 YT_BASE = 'https://www.youtube.com/watch?v='
 GENRE_DIC = json.load(open(os.path.dirname(__file__)+'/genre.json'))
 LANG = json.load(open(os.path.dirname(__file__)+'/lang.json'))

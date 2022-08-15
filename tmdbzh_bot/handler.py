@@ -8,7 +8,7 @@ from pyrogram import enums
 from pyrogram.types import (InlineKeyboardButton, InlineKeyboardMarkup,
         InlineQueryResultArticle, InputTextMessageContent)
 
-IMG_BASE = 'https://image.tmdb.org/t/p/original'
+IMG_BASE = 'https://oracle.tomyangsh.pw/img'
 
 async def inline_handler(inline_query):
     results = []
