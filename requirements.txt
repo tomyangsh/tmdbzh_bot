@@ -4,3 +4,4 @@ requests
 aiocron
 country_list
 feedparser
+redis
