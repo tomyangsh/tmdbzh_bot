@@ -55,7 +55,11 @@ class Movie():
         credits = method.movie_credits(id)
         self.director = [p.get("name") for p in credits['crew'] if p.get('job') == 'Director']
         self.cast = [{'id': p.get('id'), 'name': p.get('name'), 'character': p.get('character'), 'img': img(p["profile_path"])} for p in credits['cast']]
-        self.trailer = f'{YT_BASE}{method.movie_trailer(id)}'
+        trailer = method.movie_trailer(id)
+        if trailer:
+            self.trailer = f'{YT_BASE}{trailer}'
+        else:
+            self.trailer = None
         self.release = method.movie_release(id)
 
 class TV():
@@ -92,7 +96,11 @@ class TV():
             self.next = None
         self.status = STATUS_DIC.get(info["status"])
         self.season = info["number_of_seasons"]
-        self.trailer = f'{YT_BASE}{method.tv_trailer(id)}'
+        trailer = method.tv_trailer(id)
+        if trailer:
+            self.trailer = f'{YT_BASE}{method.tv_trailer(id)}'
+        else:
+            self.trailer = None
 
 class Person():
     def __init__(self, id):

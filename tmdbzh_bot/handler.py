@@ -26,7 +26,7 @@ async def inline_handler(inline_query):
         data = f"{i['type']}-{i['id']}"
         url = f"https://www.themoviedb.org/{i['type']}/{i['id']}?language=zh-CN"
         img = f"{IMG_BASE}{i['img']}"
-        msg = f"[ㅤ]({img}){title}\n\n{description}ㅤ"
+        msg = f"{title}[ㅤ]({img})\n\n{description}ㅤ"
         results.append(InlineQueryResultArticle(title=title, description=description, input_message_content=InputTextMessageContent(msg), reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Loading...', url=url)]]), thumb_url=img, id=data))
     await inline_query.answer(results)
 
