@@ -1,0 +1,6 @@
+tomli
+pyrogram
+requests
+aiocron
+country_list
+feedparser

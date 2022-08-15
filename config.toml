@@ -1,0 +1,9 @@
+[telegram]
+name = "bot"
+api_id = 11111
+api_hash = "123abc"
+bot_token = "1111:AAA"
+
+[TMDb]
+api_key = "xxx"
+language = "zh-CN"
