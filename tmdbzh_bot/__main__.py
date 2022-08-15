@@ -3,7 +3,7 @@ import aiocron
 
 from .client import client
 
-from .handler import inline_handler, start_handler, inline_result_handler, imdb_handler
+from .handler import inline_handler, start_handler, inline_result_handler, imdb_handler, callback_handler
 
 from . import rss
 
@@ -31,6 +31,10 @@ async def start(client, message):
 @bot.on_chosen_inline_result()
 async def edit_inline_result(client, result):
     await inline_result_handler(result, bot)
+
+@bot.on_callback_query()
+async def force_edit_inline_result(client, callback):
+    await callback_handler(callback)
 
 @bot.on_message(imdb_filter)
 async def public(client, message):

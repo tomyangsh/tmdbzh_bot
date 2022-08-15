@@ -27,7 +27,15 @@ async def inline_handler(inline_query):
         url = f"https://www.themoviedb.org/{i['type']}/{i['id']}?language=zh-CN"
         img = f"{IMG_BASE}{i['img']}"
         msg = f"{title}[ㅤ]({img})\n\n{description}ㅤ"
-        results.append(InlineQueryResultArticle(title=title, description=description, input_message_content=InputTextMessageContent(msg), reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton('Loading...', url=url)]]), thumb_url=img, id=data))
+        markup = InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton('Loading...', callback_data=data)
+                    ]
+                ]
+            )
+        results.append(InlineQueryResultArticle(title=title, description=description,
+            input_message_content=InputTextMessageContent(msg), reply_markup=markup, thumb_url=img, id=data))
     await inline_query.answer(results)
 
 async def inline_result_handler(result, bot):
@@ -36,6 +44,14 @@ async def inline_result_handler(result, bot):
     id = match.group(2)
     text = build_message(type, id)
     await bot.edit_inline_text(result.inline_message_id, text)
+
+async def callback_handler(callback):
+    await callback.answer("wait")
+    match = re.match('(\w+)-(\d+)', callback.data)
+    type = match.group(1)
+    id = match.group(2)
+    text = build_message(type, id)
+    await callback.edit_message_text(text)
 
 async def start_handler(message, bot):
     me = await bot.get_me()
