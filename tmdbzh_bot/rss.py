@@ -2,7 +2,7 @@ import feedparser
 import time
 import re
 
-from .tmdb.method import search_tv
+from .api.method import search_tv
 
 data = {"time": time.mktime(time.gmtime())}
 
@@ -26,8 +26,8 @@ def fetch():
             match = re.match('(.+) S(\d\d)E(\d\d)', i['title'])
             r = search_tv(match.group(1))
             if r:
-                name = re.sub(' ', '_', r[0]['name'])
+                name = re.sub('\W', '_', r[0]['name'])
                 url = f"https://www.themoviedb.org/tv/{r[0]['id']}"
-                result_list.append(f"#{name} [TMDb]({url})\n{i['title']}\n\n`{i['link']}`")
+                result_list.append(f"#{name} | [TMDb]({url})\n\n**{i['title']}**\n\n`{i['link']}`")
     return result_list
 

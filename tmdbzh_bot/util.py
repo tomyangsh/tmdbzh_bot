@@ -2,11 +2,19 @@ import re
 import requests
 import redis
 
-from .tmdb.type import Movie, TV, Person
+from .api import method
+from .api.type import Movie, TV, Person
 
 from datetime import date
 
+from pyrogram.types import (InlineKeyboardButton, InlineKeyboardMarkup,
+        InlineQueryResultArticle, InputTextMessageContent)
+
+IMG_BASE = 'https://oracle.tomyangsh.pw/img'
+
 r = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
+
+Inline_search_markup = InlineKeyboardMarkup([[InlineKeyboardButton('点击此处开始搜索', switch_inline_query_current_chat='')]])
 
 def get_zh_name(id):
     name = r.get(id)
@@ -36,6 +44,35 @@ def get_release(release):
             return None
     else:
         return None
+
+def build_inline_answer(query):
+    if not query:
+        results = method.discover()
+    else:
+        results = method.multi_search(query)
+    answer = []
+    for i in results[:10]:
+        if i['year']:
+            title = f"{i['name']} ({i['year']}) "
+        else:
+            title = f"{i['name']} "
+        description = i['des'] or ''
+        data = f"{i['type']}-{i['id']}"
+        img = None
+        msg = f"{title}\n\n{description}"
+        if i['img']:
+            img = f"{IMG_BASE}{i['img']}"
+            msg = f"{title}[ㅤ]({img})\n\n{description}ㅤ"
+        markup = InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton('Loading...', callback_data=data)
+                    ]
+                ]
+            )
+        answer.append(InlineQueryResultArticle(title=title, description=description,
+            input_message_content=InputTextMessageContent(msg), reply_markup=markup, thumb_url=img, id=data))
+    return answer
 
 def build_message(type, id, imdb=False):
     match type:
