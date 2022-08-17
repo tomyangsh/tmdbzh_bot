@@ -28,6 +28,6 @@ def fetch():
             if r:
                 name = re.sub('\W', '_', r[0]['name'])
                 url = f"https://www.themoviedb.org/tv/{r[0]['id']}"
-                result_list.append(f"#{name} | [TMDb]({url})\n\n**{i['title']}**\n\n`{i['link']}`")
+                result_list.append(f"#{name} | [TMDb]({url})\n**{i['title']}**\n\n`{i['link']}`")
     return result_list
 
