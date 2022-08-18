@@ -49,7 +49,7 @@ class Movie():
         self.score = round(info["vote_average"], 1)
         self.genres = [GENRE_DIC.get(str(g["id"])) for g in info["genres"]]
         self.lang = LANG.get(info["original_language"])
-        self.country = [dict(countries_for_language('zh_CN')).get(k) for k in (i.get("iso_3166_1") for i in info.get('production_countries'))]
+        self.country = [dict(countries_for_language('zh_CN')).get(k, '☭') for k in (i.get("iso_3166_1") for i in info.get('production_countries'))]
         self.runtime = info["runtime"]
         self.imdb = info["imdb_id"]
         credits = method.movie_credits(id)
@@ -84,7 +84,7 @@ class TV():
         self.score = round(info["vote_average"], 1)
         self.genres = [GENRE_DIC.get(str(g["id"])) for g in info["genres"]]
         self.lang = LANG.get(info["original_language"])
-        self.country = [dict(countries_for_language('zh_CN')).get(k) for k in info["origin_country"]]
+        self.country = [dict(countries_for_language('zh_CN')).get(k, '☭') for k in info["origin_country"]]
         self.runtime = info["episode_run_time"]
         self.imdb = method.tv_imdb(self.id)
         credits = method.tv_credits(self.id)
@@ -113,6 +113,8 @@ class Person():
         self.gender = GENDER_DIC.get(info["gender"])
         self.place_of_birth = info["place_of_birth"]
         self.known_for_department = info["known_for_department"]
+        external_ids = method.person_external_ids(id)
+        self.ins = external_ids["instagram_id"]
 
     def rworks(self):
         if self.known_for_department == "Acting":

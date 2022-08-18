@@ -180,8 +180,9 @@ def build_message(type, id, imdb=False):
                 if i['year']:
                     works.append(f"{i['year']} - {i['name']}")
             works = '\n'.join(works)
+            if p.img:
+                name = f"{name}[ㅤ]({p.img})"
+            if p.ins:
+                name = f"{name}[Ins](https://www.instagram.com/{p.ins}/)"
             text = f"{name}\n\n近期作品:\n{works}"
-            img = p.img
-            if img:
-                text = f"{name}[ㅤ]({img})\n\n近期作品:\n{works}"
     return text
