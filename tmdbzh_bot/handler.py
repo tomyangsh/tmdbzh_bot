@@ -1,7 +1,7 @@
 import re
 import requests
 
-from .util import build_inline_answer, build_message, Inline_search_markup
+from .util import build_inline_answer, build_message
 
 from pyrogram import enums
 
@@ -24,11 +24,6 @@ async def callback_handler(callback):
     id = match.group(2)
     text = build_message(type, id)
     await callback.edit_message_text(text)
-
-async def start_handler(message, bot):
-    me = await bot.get_me()
-    if message.chat.type == enums.ChatType.PRIVATE or re.search(me.username, message.text):
-        await message.reply_text("TMDb 影视及人物信息检索", reply_markup=Inline_search_markup)
 
 async def imdb_handler(message):
     await bot.reply_chat_action(enums.ChatAction.UPLOAD_PHOTO)

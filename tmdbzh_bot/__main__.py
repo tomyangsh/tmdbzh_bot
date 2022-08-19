@@ -2,31 +2,34 @@ import re
 import aiocron
 
 from .client import client
-
-from .handler import inline_handler, start_handler, inline_result_handler, imdb_handler, callback_handler
+from .util import Inline_search_markup
+from .handler import inline_handler, inline_result_handler, imdb_handler, callback_handler
 
 from . import rss
 
-from pyrogram import filters
+from pyrogram import filters, enums
 
 bot = client()
 
-def imdb_filter(_, __, message):
+async def imdb_filter(_, __, message):
     if message.text:
-        if re.match('tt\d+', message.text):
-            return True
-    else:
-        return False
+        return re.match('tt\d+', message.text)
 
 imdb_filter = filters.create(imdb_filter)
+
+async def group_filter(_, __, message):
+    me = await bot.get_me()
+    return message.chat.type == enums.ChatType.PRIVATE or re.search(me.username, message.text)
+
+group_filter = filters.create(group_filter)
 
 @bot.on_inline_query()
 async def inline_query(client, inline_query):
     await inline_handler(inline_query)
 
-@bot.on_message(filters.command('start'))
+@bot.on_message(group_filter & filters.command('start'))
 async def start(client, message):
-    await start_handler(message, bot)
+    await message.reply_text("TMDb 影视及人物信息检索", reply_markup=Inline_search_markup)
 
 @bot.on_chosen_inline_result()
 async def edit_inline_result(client, result):
