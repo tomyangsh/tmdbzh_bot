@@ -27,7 +27,7 @@ group_filter = filters.create(group_filter)
 async def inline_query(client, inline_query):
     await inline_handler(inline_query)
 
-@bot.on_message(group_filter & filters.command('start'))
+@bot.on_message(filters.command('start') & group_filter)
 async def start(client, message):
     await message.reply_text("TMDb 影视及人物信息检索", reply_markup=Inline_search_markup)
 
