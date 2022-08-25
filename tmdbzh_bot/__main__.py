@@ -40,7 +40,7 @@ async def force_edit_inline_result(client, callback):
     await callback_handler(callback)
 
 @bot.on_message(imdb_filter)
-async def public(client, message):
+async def imdb(client, message):
     await imdb_handler(message)
 
 @aiocron.crontab('*/30 * * * *')

@@ -11,6 +11,7 @@ async def inline_handler(inline_query):
     await inline_query.answer(answer)
 
 async def inline_result_handler(result, bot):
+    print(result.result_id)
     match = re.match('(\w+)-(\d+)', result.result_id)
     type = match.group(1)
     id = match.group(2)
@@ -26,7 +27,7 @@ async def callback_handler(callback):
     await callback.edit_message_text(text)
 
 async def imdb_handler(message):
-    await bot.reply_chat_action(enums.ChatAction.UPLOAD_PHOTO)
+    await message.reply_chat_action(enums.ChatAction.UPLOAD_PHOTO)
     type = "movie"
     id = message.text
     result = build_message(type, id, imdb=True)
