@@ -9,3 +9,5 @@ if not os.path.exists("config.toml"):
 
 with open("config.toml", "rb") as f:
     CONFIG = tomli.load(f)
+
+bot = Client(**CONFIG["telegram"])

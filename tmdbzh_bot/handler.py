@@ -11,7 +11,6 @@ async def inline_handler(inline_query):
     await inline_query.answer(answer)
 
 async def inline_result_handler(result, bot):
-    print(result.result_id)
     match = re.match('(\w+)-(\d+)', result.result_id)
     type = match.group(1)
     id = match.group(2)

@@ -1,15 +1,13 @@
 import re
 import aiocron
 
-from .client import client
+from . import bot
 from .util import Inline_search_markup
 from .handler import inline_handler, inline_result_handler, imdb_handler, callback_handler
 
 from . import rss
 
 from pyrogram import filters, enums
-
-bot = client()
 
 async def imdb_filter(_, __, message):
     if message.text:
