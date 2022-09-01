@@ -14,8 +14,8 @@ async def inline_result_handler(result, bot):
     match = re.match('(\w+)-(\d+)', result.result_id)
     type = match.group(1)
     id = match.group(2)
-    text = build_message(type, id)
-    await bot.edit_inline_text(result.inline_message_id, text)
+    message = build_message(type, id)
+    await bot.edit_inline_text(result.inline_message_id, message['text'], reply_markup=message['markup'])
 
 async def callback_handler(callback):
     await callback.answer("wait")

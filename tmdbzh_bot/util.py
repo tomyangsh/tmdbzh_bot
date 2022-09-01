@@ -184,4 +184,4 @@ def build_message(type, id, imdb=False):
             if p.ins:
                 name = f"{name}[Ins](https://www.instagram.com/{p.ins}/)"
             text = f"{name}\n\n近期作品:\n{works}"
-    return text
+    return {'text': text, 'markup': InlineKeyboardMarkup([[InlineKeyboardButton('在TMDb上查看', url=f"https://www.themoviedb.org/{type}/{id}")]])}
