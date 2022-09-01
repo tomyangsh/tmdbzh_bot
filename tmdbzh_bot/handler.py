@@ -22,8 +22,8 @@ async def callback_handler(callback):
     match = re.match('(\w+)-(\d+)', callback.data)
     type = match.group(1)
     id = match.group(2)
-    text = build_message(type, id)
-    await callback.edit_message_text(text)
+    message = build_message(type, id)
+    await callback.edit_message_text(message['text'], reply_markup=message['markup'])
 
 async def imdb_handler(message):
     await message.reply_chat_action(enums.ChatAction.UPLOAD_PHOTO)
