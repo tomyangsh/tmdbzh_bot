@@ -124,9 +124,9 @@ class Person():
         rworks = []
         for w in wlist:
             if w["media_type"] == "movie":
-                rworks.append({'type': 'movie', 'id': w['id'], 'name': w['title'], 'year': w['release_date'][:4], 'poster': img(w['poster_path'])})
+                rworks.append({'type': 'movie', 'id': w['id'], 'name': w['title'], 'year': w.get('release_date', '')[:4], 'poster': img(w['poster_path'])})
             else:
-                rworks.append({'type': 'tv', 'id': w['id'], 'name': w['name'], 'year': w['first_air_date'][:4], 'poster': img(w['poster_path'])})
+                rworks.append({'type': 'tv', 'id': w['id'], 'name': w['name'], 'year': w.get('first_air_date', '')[:4], 'poster': img(w['poster_path'])})
         rworks = [dict(t) for t in {tuple(d.items()) for d in rworks}]
         rworks.sort(reverse=True, key=get_year)
         return rworks
