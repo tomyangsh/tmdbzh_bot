@@ -2,7 +2,7 @@ import requests
 
 from .. import CONFIG
 
-from datetime import date
+from datetime import date, timedelta
 
 HEADERS = {
         'User-Agent': 'Kodi Movie scraper by Team Kodi',
@@ -31,8 +31,8 @@ def discover(default_type='movie'):
     params['language'] = LANG
     params['with_release_type'] = '4'
     params['region'] = 'US'
-    params['sort_by'] = 'release_date.asc'
-    params['release_date.gte'] = date.today().isoformat()
+    params['release_date.gte'] = (date.today() + timedelta(days=1)).isoformat()
+    params['release_date.lte'] = (date.today() + timedelta(days=7)).isoformat()
     result = requests.get(url, headers=HEADERS, params=params).json()
     return results_handler(result, default_type)
 
