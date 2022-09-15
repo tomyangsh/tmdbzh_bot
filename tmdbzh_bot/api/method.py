@@ -2,6 +2,8 @@ import requests
 
 from .. import CONFIG
 
+from datetime import date
+
 HEADERS = {
         'User-Agent': 'Kodi Movie scraper by Team Kodi',
         'Accept': 'application/json'
@@ -20,13 +22,17 @@ def results_handler(result, default_type=None):
         date = i.get('release_date') or i.get('first_air_date') or ''
         img = i.get('poster_path') or i.get('profile_path')
         des = i.get('overview')
-        result_list.append({'type': type, 'id': id, 'name': name, 'year': date[:4], 'img': img, 'des': des})
+        result_list.append({'type': type, 'id': id, 'name': name, 'date': date[5:], 'year': date[:4], 'img': img, 'des': des})
     return result_list
 
 def discover(default_type='movie'):
     url = f'{URL_BASE}discover/{default_type}'
     params = PARAMS_BASE.copy()
     params['language'] = LANG
+    params['with_release_type'] = '4'
+    params['region'] = 'US'
+    params['sort_by'] = 'release_date.asc'
+    params['release_date.gte'] = date.today().isoformat()
     result = requests.get(url, headers=HEADERS, params=params).json()
     return results_handler(result, default_type)
 

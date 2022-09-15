@@ -51,7 +51,9 @@ def build_inline_answer(query):
         results = method.multi_search(query)
     answer = []
     for i in results[:10]:
-        if i['year']:
+        if not query:
+            title = f"{i['name']} ({i['date']}) "
+        elif i['year']:
             title = f"{i['name']} ({i['year']}) "
         else:
             title = f"{i['name']} "
