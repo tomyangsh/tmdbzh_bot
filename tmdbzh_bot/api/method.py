@@ -13,6 +13,19 @@ URL_BASE = 'https://api.themoviedb.org/3/'
 PARAMS_BASE = {'api_key': CONFIG["TMDb"]["api_key"]}
 LANG = CONFIG["TMDb"]["language"]
 
+def area_order(dic):
+     match dic['iso_3166_1']:
+             case 'CN':
+                     return 0
+             case 'SG':
+                     return 1
+             case 'TW':
+                     return 2
+             case 'HK':
+                     return 3
+             case 'US':
+                     return 4
+
 def results_handler(result, default_type=None):
     result_list = []
     for i in result['results']:
@@ -104,7 +117,9 @@ def movie_translation(id):
     url = f'{URL_BASE}movie/{id}/translations'
     params = PARAMS_BASE.copy()
     result = requests.get(url, headers=HEADERS, params=params).json()
-    return result["translations"]
+    translations = list(i for i in result["translations"] if i["iso_639_1"] == "zh" or i["iso_639_1"] == "en")
+    translations.sort(key=area_order)
+    return translations
 
 def tv_info(id):
     url = f'{URL_BASE}tv/{id}'
@@ -137,6 +152,14 @@ def tv_backdrops(id):
     params = PARAMS_BASE.copy()
     result = requests.get(url, headers=HEADERS, params=params).json()
     return result["backdrops"]
+
+def tv_translation(id):
+    url = f'{URL_BASE}tv/{id}/translations'
+    params = PARAMS_BASE.copy()
+    result = requests.get(url, headers=HEADERS, params=params).json()
+    translations = list(i for i in result["translations"] if i["iso_639_1"] == "zh" or i["iso_639_1"] == "en")
+    translations.sort(key=area_order)
+    return translations
 
 def person_info(id):
     url = f'{URL_BASE}person/{id}'
