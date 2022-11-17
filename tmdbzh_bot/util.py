@@ -63,7 +63,7 @@ def build_inline_answer(query):
         msg = f"{title}\n\n{description}"
         if i['img']:
             img = f"{IMG_BASE}{i['img']}"
-            msg = f"{title}[ㅤ]({img})\n\n{description}ㅤ"
+            msg = f"{title}[\u200b]({img})\n\n{description}ㅤ"
         markup = InlineKeyboardMarkup(
                 [
                     [
@@ -118,7 +118,7 @@ def build_message(type, id, imdb=False):
             text = f"{name}\n\n{attribute}\n\n{des}"
             img = m.poster
             if img:
-                text = f"{name}[ㅤ]({img})\n\n{attribute}\n\n{des}"
+                text = f"{name}[\u200b]({img})\n\n{attribute}\n\n{des}"
             if imdb:
                 return {"text": text, "img": img}
         case 'tv':
@@ -164,7 +164,7 @@ def build_message(type, id, imdb=False):
             text = f"{name}\n\n{attribute}\n\n{des}"
             img = t.poster
             if img:
-                text = f"{name}[ㅤ]({img})\n\n{attribute}\n\n{des}"
+                text = f"{name}[\u200b]({img})\n\n{attribute}\n\n{des}"
         case 'person':
             p = Person(id)
             name = get_zh_name(id)
@@ -182,7 +182,7 @@ def build_message(type, id, imdb=False):
                     works.append(f"{i['year']} - {i['name']}")
             works = '\n'.join(works)
             if p.img:
-                name = f"{name}[ㅤ]({p.img})"
+                name = f"{name}[\u200b]({p.img})"
             if p.ins:
                 name = f"{name}[Ins](https://www.instagram.com/{p.ins}/)"
             text = f"{name}\n\n近期作品:\n{works}"
